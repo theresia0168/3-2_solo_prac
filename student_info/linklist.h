@@ -13,14 +13,15 @@ typedef struct node {
 }STUDENT;
 
 typedef struct list {
-	struct node* head;
-	struct node* tail;
+	STUDENT* head;
+	STUDENT* tail;
+	int list_len;
 }STUDENT_LIST;
 
 /*
-1. í•™ìƒ ì •ë³´ ìž…ë ¥ ë°›ê¸° + ë§í¬ë¦¬ìŠ¤íŠ¸ ì¶”ê°€
-2. ì œê±°
-3. ì¶œì„ë²ˆí˜¸ ìˆœìœ¼ë¡œ ì •ë ¬
+1. ÇÐ»ý Á¤º¸ ÀÔ·Â ¹Þ±â + ¸µÅ©¸®½ºÆ® Ãß°¡
+2. Á¦°Å
+3. Ãâ¼®¹øÈ£ ¼øÀ¸·Î Á¤·Ä
 */
 
 STUDENT* input() {
@@ -36,13 +37,13 @@ STUDENT* input() {
 	ph = (char*)malloc(sizeof(char) * 15);
 	adr = (char*)malloc(sizeof(char) * 30);
 
-	printf("ì¶œì„ë²ˆí˜¸ë¥¼ ìž…ë ¥í•˜ì‹œì˜¤ : ");
+	printf("Ãâ¼®¹øÈ£¸¦ ÀÔ·ÂÇÏ½Ã¿À : ");
 	scanf_s("%d", &num);
-	printf("ì´ë¦„ì„ ìž…ë ¥í•˜ì‹œì˜¤ : ");
+	printf("ÀÌ¸§À» ÀÔ·ÂÇÏ½Ã¿À : ");
 	scanf_s("%s", name, 10);
-	printf("ì—°ë½ì²˜ë¥¼ ìž…ë ¥í•˜ì‹œì˜¤ : ");
+	printf("¿¬¶ôÃ³¸¦ ÀÔ·ÂÇÏ½Ã¿À : ");
 	scanf_s("%s", ph, 15);
-	printf("ì£¼ì†Œë¥¼ ìž…ë ¥í•˜ì‹œì˜¤ : ");
+	printf("ÁÖ¼Ò¸¦ ÀÔ·ÂÇÏ½Ã¿À : ");
 	scanf_s("%s", adr, 30);
 
 	buf->stu_num = num;
@@ -50,38 +51,31 @@ STUDENT* input() {
 	buf->ph_num = ph;
 	buf->adr = adr;
 
+	printf("\n");
 	return buf;
 }
 
-void new_node() {
-
+void info_print(STUDENT* info) {
+	printf("*-------------------------*\n\n");
+	printf("Ãâ¼®¹øÈ£ : %d\n", info->stu_num);
+	printf("ÀÌ¸§\t : %s\n", info->name);
+	printf("¿¬¶ôÃ³\t : %s\n", info->ph_num);
+	printf("ÁÖ¼Ò\t : %s\n\n", info->adr);
 }
 
-void command(int c, STUDENT *info) {
-	switch (c) {
-		case 1:
-			info = input();
-			break;
-		case 2:
-			printf("2. ê¸°ì¡´ í•™ìƒ ì •ë³´ ìˆ˜ì •\n\n");
-			break;
-		case 3:
-			printf("3. ê¸°ì¡´ í•™ìƒ ì •ë³´ ì‚­ì œ\n\n");
-			break;
-		case 4:
-			printf("4. í•™ìƒ ì •ë³´ ì—´ëžŒ\n\n");
-			break;
-		case 5:
-			printf("ã…¡ã…¡ã…¡í•™ìƒ ì •ë³´ ê´€ë¦¬ ì‹œìŠ¤í…œì„ ì¢…ë£Œí•©ë‹ˆë‹¤\n");
-			break;
+void info_search(STUDENT_LIST* list) {
+	int search;
+	STUDENT* train = list->head;
+	printf("Ã£À¸½Ã´Â ÇÐ»ýÀÇ Ãâ¼®¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä : ");
+	scanf_s("%d", &search);
+	printf("\n");
+
+	printf(" . . . ÇØ´ç ÇÐ»ý Á¤º¸ ¿­¶÷ Áß . . . \n\n");
+	while (search != train->stu_num) {
+		train = train->next;
 	}
-}
-
-void info_print(STUDENT *info) {
-	printf("ì¶œì„ë²ˆí˜¸ : %d\n", info->stu_num);
-	printf("ì´ë¦„ : %s\n", info->name);
-	printf("ì—°ë½ì²˜ : %s\n", info->ph_num);
-	printf("ì£¼ì†Œ : %s\n", info->adr);
+	info_print(train);
+	printf("*-------------------------*\n\n");
 }
 
 #endif

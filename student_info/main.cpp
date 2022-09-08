@@ -3,23 +3,131 @@
 
 int main(int argc, char* argv[]) {
 	int command_num;
-	STUDENT* stu = NULL;
+	STUDENT_LIST* student = NULL;
+	STUDENT* buf = NULL;
+	
+	student = (STUDENT_LIST*)malloc(sizeof(STUDENT) * 1);
+	student->list_len = 0;
 
-	printf("\t\t\t\t\t* ã…¡ã…¡ã…¡ í•™ìƒ ì •ë³´ ê´€ë¦¬ ì‹œìŠ¤í…œ ã…¡ã…¡ã…¡ *\n");
+	printf("\t\t\t\t\t***************************************\n");
+	printf("\t\t\t\t\t* ¤Ñ¤Ñ¤Ñ ÇĞ»ı Á¤º¸ °ü¸® ½Ã½ºÅÛ ¤Ñ¤Ñ¤Ñ *\n");
+	printf("\t\t\t\t\t***************************************\n\n");
 	while (1) {
-		printf("1. ì‹ ê·œ í•™ìƒ ì •ë³´ ì…ë ¥\n");
-		printf("2. ê¸°ì¡´ í•™ìƒ ì •ë³´ ìˆ˜ì •\n");
-		printf("3. ê¸°ì¡´ í•™ìƒ ì •ë³´ ì‚­ì œ\n");
-		printf("4. í•™ìƒ ì •ë³´ ì—´ëŒ\n");
-		printf("5. í”„ë¡œê·¸ë¨ ì¢…ë£Œ\n");
+		printf("1. ½Å±Ô ÇĞ»ı Á¤º¸ ÀÔ·Â\n");
+		printf("2. ±âÁ¸ ÇĞ»ı Á¤º¸ ¼öÁ¤\n");
+		printf("3. ±âÁ¸ ÇĞ»ı Á¤º¸ »èÁ¦\n");
+		printf("4. ÀüÃ¼ ÇĞ»ı Á¤º¸ ¿­¶÷\n");
+		printf("5. ÇĞ»ı Á¤º¸ °Ë»ö ¿­¶÷\n");
+		printf("6. ÇÁ·Î±×·¥ Á¾·á\n");
 		printf("$ ");
 		scanf_s("%d", &command_num);
 		printf("\n");
 
-		command(command_num, stu);
-		if (command_num == 5)
+		switch (command_num) {
+		case 1:	// ÇĞ»ı Á¤º¸ ÀÔ·Â ¹× Ãâ¼®¹øÈ£ ¼ø Á¤·Ä
+		{
+			int count = 1;
+			STUDENT* buf = NULL;
+			buf = (STUDENT*)malloc(sizeof(STUDENT) * 1);
+			buf = input();
+			if (student->list_len == 0) {
+				student->head = buf;
+				student->tail = student->head;
+				student->list_len = 1;
+			}	// ½Å±Ô ÇĞ»ı Á¤º¸ ÀÔ·Â ¹Ş±â
+			else {	// Ãâ¼®¹øÈ£ ¼ø Á¤·Ä ´Ü°è
+				STUDENT* train = NULL;
+				train = (STUDENT*)malloc(sizeof(STUDENT) * 1);
+				STUDENT* tmp = NULL;
+				train = student->head;	// ÀÓ½Ã ³ëµå train¿¡ ¿¬°á¸®½ºÆ®ÀÇ head¸¦ ÇÒ´ç
+
+				while (1) {
+					if (train->stu_num > buf->stu_num) {	// trainÀÇ Ãâ¼®¹øÈ£°¡ ÇöÀç ÀÔ·Â ¹ŞÀº Ãâ¼®¹øÈ£º¸´Ù Å©¸é À§Ä¡¸¦ ¹Ù²Û´Ù
+						if (train == student->head) {
+							buf->next = student->head;
+							student->head = buf;
+						}
+						else {
+							tmp->next = buf;
+							buf->next = train;
+							break;
+						}
+					}
+					else {
+						if (count != student->list_len) {
+							tmp = train;
+							train = train->next;
+						}
+						else {
+							train->next = buf;
+							break;
+						}
+					}
+					count++;
+				}
+				student->list_len++;
+			}
+		}
+		break;
+		case 2: {
+			int num;
+			printf("¼öÁ¤ÇÏ·Á´Â ÇĞ»ıÀÇ Ãâ¼®¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä : ");
+			scanf_s("%d", &num);
+			printf("\n");
+
+			STUDENT* train = student->head;
+			while (train->stu_num != num) {
+				train = train->next;
+			}
+			*train = *input();
+			
+			break;
+		}
+			
+		case 3:
+		{
+			printf("3. ±âÁ¸ ÇĞ»ı Á¤º¸ »èÁ¦\n\n");
+			int num;
+			printf("»èÁ¦ÇÏ·Á´Â ÇĞ»ıÀÇ Ãâ¼®¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä : ");
+			scanf_s("%d", &num);
+			printf("\n");
+
+			STUDENT* train = student->head;
+			STUDENT* tmp = NULL;
+			while (train->next->stu_num != num) {
+				train = train->next;
+			}
+			tmp = train->next->next;
+			free(train->next);
+			train->next = tmp;
+			student->list_len--;
+			break;
+		}
+		case 4:
+		{
+			STUDENT* train = student->head;
+			printf(" . . .  ÀüÃ¼ ÇĞ»ı Á¤º¸ ¿­¶÷ Áß . . . \n\n");
+
+			printf("ÀüÃ¼ ÇĞ»ı ¼ö : %d\n\n", student->list_len);
+			for (int i = 0; i < student->list_len; i++) {
+				info_print(train);
+				train = train->next;
+			}printf("*-------------------------*\n\n");
+			break;
+		}
+		case 5:
+		{
+			info_search(student);
+			break;
+		}
+		case 6:
+			printf(" . . . ÇĞ»ı Á¤º¸ °ü¸® ½Ã½ºÅÛÀ» Á¾·áÇÕ´Ï´Ù\n");
+			break;
+		}
+		if (command_num == 6)
 			break;
 	}
+	free(student);
 
 	return 0;
 }
